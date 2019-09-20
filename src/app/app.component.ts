@@ -11,7 +11,7 @@ import { Injectable } from '@angular/core';
 })
 
 export class AppComponent {
-  title = 'lalala';
+  title = 'cuteApp';
 
   public rekognition: AWS.Rekognition;
 
@@ -20,8 +20,6 @@ export class AppComponent {
         AWS.config.credentials = new AWS.CognitoIdentityCredentials({
             IdentityPoolId: 'ap-southeast-1:5d8ba300-588e-4c78-9d0a-b1dbf064a381'
         });
-        //AWS.config.getCredentials;  
-        //AWS.config.loadFromPath('/../credentials.json');
         this.rekognition = new AWS.Rekognition();
     }
 
@@ -33,17 +31,13 @@ export class AppComponent {
 
     public captures: Array<any>;
 
-    public dataURI: string;
-
-    public imageBlob: string;
-
     public identifiedPerson: string;
 
     public url: Array<any>;
 
     public ngOnInit() { }
 
-//Start Camera 
+    //Start Camera 
     public ngAfterViewInit() {
         if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
             navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
@@ -53,50 +47,49 @@ export class AppComponent {
         }
     }
 
-//Capture Image 
+    //Capture Image 
     public capture() {
         var context = this.canvas.nativeElement.getContext("2d").drawImage(this.video.nativeElement, 0, 0, 640, 480);
-        
+
         this.captures = [];
         this.captures.push(this.canvas.nativeElement.toDataURL("data:image/png;base64"));
-        console.log(this.captures);
+        //console.log(this.captures);
 
-        //this.dataURI = this.canvas.nativeElement.toDataURL("data:image/png;base64").value;
-        this.dataURI = this.canvas.nativeElement.toDataURL("data:image/png;base64,");
+        var dataURI = this.canvas.nativeElement.toDataURL("data:image/png;base64");
+        //console.log(dataURI);
 
-        this.dataURLtoBlob(this.dataURI);
-
-        //const imageFile = new File([imageBlob], 'cameraImage.jpeg', { type: 'image/jpeg' });
-    }
-
-//Convert dataURL to imageBytes
-    public dataURLtoBlob(dataURI) {
-        console.log(dataURI);
-        //const byteString = window.atob(dataURI);
-        const byteString = atob(dataURI.split("data:image/png;base64,")[1]);
-        console.log(byteString);
-        console.log(byteString.length);
-
-        const imageBytes = new ArrayBuffer(byteString.length);
-
-        this.SearchFace(imageBytes).then(
+        this.SearchFace(this.dataURItoBlob(dataURI)).then(
             (data) => {
                 console.log(data.FaceMatches[0].Face.ExternalImageId, ' had been identified');
-                this.identifiedPerson = data.FaceMatches[0].Face.ExternalImageId;
         }).catch((err) => {
             console.error(err);
         });
 
-        return this.identifiedPerson;
+    }
+
+    //Convert dataURL to imageBytes
+    public dataURItoBlob(dataURI) {
+        //console.log(dataURI.split("data:image/png;base64,")[1]);
+        const byteString = atob(dataURI.split("data:image/png;base64,")[1]);
+        //console.log(byteString);
+        //console.log(byteString.length);
+
+        var length = byteString.length;
+        var imageBytes = new ArrayBuffer(length);
+        var ua = new Uint8Array(imageBytes);
+        for (var i = 0; i < length; i++) {
+          ua[i] = byteString.charCodeAt(i);
+        }
+  
+        return imageBytes;
+
      }
     
 
-//Call Rekognition API for Face Searching
+    //Call Rekognition API for Face Searching
     public SearchFace(imageBytes):
-        //Promise<PromiseResult<AWS.Rekognition.SearchFacesByImageResponse, AWS.AWSError>> {
         Promise<PromiseResult<AWS.Rekognition.SearchFacesByImageResponse, AWS.AWSError>> {
-            console.log(imageBytes);
-            
+            //console.log(imageBytes);           
             var params = {
                 CollectionId: 'cx-demo-rekognition',
                 Image: {
@@ -105,6 +98,8 @@ export class AppComponent {
             };
 
             return this.rekognition.searchFacesByImage(params).promise();
+
         }
+
 }
 

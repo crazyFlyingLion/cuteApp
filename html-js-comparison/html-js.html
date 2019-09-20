@@ -75,12 +75,13 @@ PDX-License-Identifier: MIT-0 (For details, see https://github.com/awsdocs/amazo
         console.log(e.target.result);
         try {
           image = atob(e.target.result.split("data:image/jpeg;base64,")[1]);
-
+          console.log("processed a jpg image");
         } catch (e) {
           jpg = false;
         }
         if (jpg == false) {
           try {
+            console.log("processed a png image");
             image = atob(e.target.result.split("data:image/png;base64,")[1]);
           } catch (e) {
             alert("Not an image file Rekognition can process");
