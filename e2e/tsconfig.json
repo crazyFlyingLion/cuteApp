@@ -5,9 +5,9 @@
     "module": "commonjs",
     "target": "es5",
     "types": [
+      "node",
       "jasmine",
-      "jasminewd2",
-      "node"
+      "jasminewd2"
     ]
   }
 }

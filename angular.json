@@ -68,14 +68,14 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "lalala:build:production"
+              "browserTarget": "cuteApp:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "lalala:build"
+            "browserTarget": "cuteApp:build"
           }
         },
         "test": {
@@ -112,15 +112,15 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "lalala:serve"
+            "devServerTarget": "cuteApp:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "lalala:serve:production"
+              "devServerTarget": "cuteApp:serve:production"
             }
           }
         }
       }
     }},
-  "defaultProject": "lalala"
+  "defaultProject": "cuteApp"
 }
