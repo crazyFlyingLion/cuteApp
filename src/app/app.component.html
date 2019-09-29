@@ -3,7 +3,7 @@
 <div class="toolbar" role="banner">
   <img
     width="250"
-    alt="Cute App"
+    alt="Customer Experience App"
     src=""
   />
  
@@ -16,7 +16,8 @@
   <!-- Resources -->
   <div id="app">
       <div><video #video id="video" width="640" height="480" autoplay></video></div>
-      <div><button id="snap" (click)="capture()">start</button></div>
+      <div><button id="snap" (click)="capture_face()">Confirm Identity</button></div>
+      <div><button id="scan" (click)="capture_passport()">Scan Passport</button></div>
       <canvas #canvas id="canvas" width="640" height="480"></canvas>
       <ul>
           <div *ngFor="let c of captures">
@@ -24,10 +25,8 @@
               <div id="dataURL"> 
               </div>
           </div>
-
-          
-          
       </ul>
+      <p id="msg"></p>
   </div>
 
     <div class="row">
