@@ -15,9 +15,16 @@
   <!-- Highlight Card -->
   <!-- Resources -->
   <div id="app">
-      <div><video #video id="video" width="640" height="480" autoplay></video></div>
-      <div><button id="snap" (click)="capture_face()">Confirm Identity</button></div>
-      <div><button id="scan" (click)="capture_passport()">Scan Passport</button></div>
+      <div><video #video id="video" hidden width="640" height="480" autoplay></video></div>
+      <div><button id="talk" (click)="capture_voice()">Initiate a Conversation</button></div>
+      <div><button id="chat" (click)="chat()">Test Chat</button></div>
+      <div>
+        <p>Booking Reference:</p>
+        <input #bookingReference id="bookingReference" type="text">
+      </div>
+      <div><button id="openCam" (click)="change_cam_mode()">Show/Hide Camera</button></div>
+      <div><button id="snap" (click)="capture_face()">Retrieve Booking</button></div>
+      <div><button id="scan" (click)="check_in()">Check-in</button></div>
       <canvas #canvas id="canvas" width="640" height="480"></canvas>
       <ul>
           <div *ngFor="let c of captures">
@@ -27,6 +34,8 @@
           </div>
       </ul>
       <p id="msg"></p>
+      <br/>
+      <p id="status"></p>
   </div>
 
     <div class="row">
